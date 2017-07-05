@@ -22,13 +22,13 @@ ft_printf is an implementation of few of C `printf` functionality with extended 
 6. z "size_t - d, i" || size_t - o, u, x, X"
 
 **Flags**
-**'#'** - For x and X conversions, a non-zero result has the string `0x' (or `0X' for X conversions) prepended to it.
-**'0'** - zero padding. The converted value is padded on the left with zeros rather than blanks
-**'-'** - A negative field width flag; the converted value is to be left adjusted on the field boundary.
-**' '** - (space)  A blank should be left before a positive number produced by a signed conversion.
-**'+'** - A sign must always be placed before a number produced by a signed conversion.
+**'#'** - For x and X conversions, a non-zero result has the string `0x' (or `0X' for X conversions) prepended to it.__
+**'0'** - zero padding. The converted value is padded on the left with zeros rather than blanks.__
+**'-'** - A negative field width flag; the converted value is to be left adjusted on the field boundary.__
+**' '** - (space)  A blank should be left before a positive number produced by a signed conversion.__
+**'+'** - A sign must always be placed before a number produced by a signed conversion.__
 
-**'%'** - A % is written.  No argument is converted.  The complete conversion specification is '%%'.
+**'%'** - A % is written.  No argument is converted.  The complete conversion specification is '%%'.__
 
 
 
