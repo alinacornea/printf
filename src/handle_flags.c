@@ -72,29 +72,23 @@ char	*handle_width_flag_minus(char *str, t_arg mod)
 char	*ft_setlloc(char *str, char *tmp, t_arg mod)
 {
 	int		size;
-	char	*tmp2;
 
-	tmp2 = NULL;
 	size = mod.width - ft_strilen(str);
 	tmp = ft_memalloc(size + 1);
 	tmp = ft_memset(tmp, ' ', size);
-	tmp2 = ft_strjoin(tmp, str);
+	str = ft_strjoin(tmp, str);
 	free(tmp);
-	str = tmp2;
 	return (str);
 }
 
 char	*handle_width_flag_zero(char *tmp, char *str, t_arg mod)
 {
-	char *tmp2;
-
 	if (mod.width > ft_strilen(str) && !mod.precision && g_nb >= 0)
 	{
 		tmp = ft_memalloc(mod.width - ft_strilen(str) + 1);
 		tmp = ft_memset(tmp, '0', mod.width - ft_strilen(str));
-		tmp2 = ft_strjoin(tmp, str);
-		free(tmp);
-		str = tmp2;
+		str = ft_strjoin(tmp, str);
+		ft_strdel(&tmp);
 		if (mod.flag_hash)
 			str[1] = mod.hex ? 'X' : 'x';
 	}
@@ -103,6 +97,7 @@ char	*handle_width_flag_zero(char *tmp, char *str, t_arg mod)
 		tmp = ft_memalloc(mod.width - ft_strilen(str) + 1);
 		tmp = ft_memset(tmp, '0', mod.width - ft_strilen(str) - 1);
 		str = ft_strjoin(tmp, str);
+		ft_strdel(&tmp);
 		if (!mod.precision)
 			str = ft_strjoin("-", str);
 	}
@@ -111,10 +106,9 @@ char	*handle_width_flag_zero(char *tmp, char *str, t_arg mod)
 	return (str);
 }
 
-char	*handle_int_width(char *str, t_arg mod)
+char	*handle_int_width(char *str, t_arg mod, int m)
 {
 	char	*tmp;
-	char	*tmp2;
 
 	tmp = NULL;
 	if (mod.flag_minus)
@@ -127,14 +121,14 @@ char	*handle_int_width(char *str, t_arg mod)
 	{
 		if (mod.flag_plus)
 			str = ft_strjoin("+", str);
-		tmp2 = ft_setlloc(str, tmp, mod);
-		free(tmp);
-		str = tmp2;
+		str = ft_setlloc(str, tmp, mod);
+		ft_strdel(&tmp);
+		m = 1;
 	}
 	else if (mod.width <= ft_strilen(str) && g_nb < 0 && !mod.flag_minus)
 	{
-		if (!mod.precision && g_nb < 0)
-			str = ft_strjoin("-", str);
+		(!mod.precision && g_nb < 0) ? str = ft_strjoin("-", str) : (0);
+		m = 1;
 	}
 	return (str);
 }

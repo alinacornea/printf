@@ -15,25 +15,28 @@
 void	convert_integers(intmax_t num, int *value, char *get, t_arg mod)
 {
 	char		*str;
+	int			len;
+	int			m;
 
+	m = 0;
 	g_nb = num;
 	str = convert_long_long_to_ascii(num, 10);
+	len = ft_strilen(str);
 	if (mod.precision)
 	{
 		str = handle_int_precision(str, mod);
-		if (num < 0)
-			str = ft_strjoin("-", str);
+		((num < 0 && !mod.precision) || (mod.precision && num < 0 )) ?
+		str = ft_strjoin("-", str) : (0);
+		m = 1;
 	}
-	if (num < 0 && !mod.precision && !mod.width)
-		str = ft_strjoin("-", str);
 	if (mod.precision == 0 && num == 0 && ft_strchr(get, '.'))
 		str[0] = '\0';
-	if (mod.width)
-		str = handle_int_width(str, mod);
+	(mod.width) ? str = handle_int_width(str, mod, m) : (0);
 	if ((mod.flag_plus || mod.flag_space) && g_nb >= 0)
 		handle_all_flags(value, &str, mod);
 	ft_putstr(str);
-	*value += ft_strilen(str);
+	m ? free(str) : (0);
+	*value += len;
 }
 
 void	handle_integers(va_list arg, int *value, char *get, t_arg mod)

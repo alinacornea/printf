@@ -16,7 +16,6 @@ char	*handle_int_precision(char *str, t_arg mod)
 {
 	char	*tmp;
 	int		size;
-	// char	*tmp2;
 
 	size = mod.precision - ft_strilen(str);
 	if (mod.precision > ft_strilen(str))
@@ -25,10 +24,8 @@ char	*handle_int_precision(char *str, t_arg mod)
 			size = size + 1;
 		tmp = ft_memalloc(size + 1);
 		tmp = ft_memset(tmp, '0', size);
-		// tmp2 = str;
 		str = ft_strjoin(tmp, str);
 		tmp ? ft_strdel(&tmp) : (0);
-		// tmp2 ? ft_strdel(&tmp2) : (0);
 	}
 	return (str);
 }
@@ -75,7 +72,7 @@ void	handle_flag_space(int *value, char **str, t_arg mod)
 		ft_putchar(' ');
 		*value += 1;
 	}
-	free(f);
+	f ? free(f) : (0);
 }
 
 void	handle_all_flags(int *value, char **str, t_arg mod)
