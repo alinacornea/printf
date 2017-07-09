@@ -25,14 +25,14 @@ char	*handle_negative_num(char *str, t_arg mod)
 		str = ft_strjoin(str, tmp);
 		(!mod.precision) ? str = ft_strjoin("-", str) : (0);
 	}
-	else if (mod.width > ft_strilen(str) && g_nb < 0)
+	if (mod.width > ft_strilen(str) && g_nb < 0)
 	{
 		(!mod.precision) ? str = ft_strjoin("-", str) : (0);
 		size = mod.width - ft_strilen(str);
 		tmp = ft_memalloc(size + 1);
 		tmp = ft_memset(tmp, ' ', size);
 		str = ft_strjoin(tmp, str);
-	}	
+	}
 	tmp ? ft_strdel(&tmp) : (0);
 	return (str);
 }
@@ -76,34 +76,31 @@ char	*ft_setlloc(char *str, char *tmp, t_arg mod)
 
 char	*handle_width_flag_zero(char *tmp, char *str, t_arg mod)
 {
-	if (mod.width > ft_strilen(str) && !mod.precision && g_nb >= 0)
+	int len;
+
+	if (!mod.precision)
 	{
 		tmp = ft_memalloc(mod.width - ft_strilen(str) + 1);
-		tmp = ft_memset(tmp, '0', mod.width - ft_strilen(str));
+		g_nb < 0 ? (len = ft_strilen(str) - 1) : (len = ft_strilen(str));
+		tmp = ft_memset(tmp, '0', mod.width - len);
 		str = ft_strjoin(tmp, str);
 		(mod.flag_hash) ? (str[1] = mod.hex ? 'X' : 'x') : (0);
+		g_nb < 0 ? str = ft_strjoin("-", str) : (0);
 	}
-	else if (mod.width > ft_strilen(str) && !mod.precision && g_nb < 0)
-	{
-		tmp = ft_memalloc(mod.width - ft_strilen(str) + 1);
-		tmp = ft_memset(tmp, '0', mod.width - ft_strilen(str) - 1);
-		str = ft_strjoin(tmp, str);
-		(!mod.precision) ? str = ft_strjoin("-", str) : (0);
-	}
-	else if (mod.width > ft_strilen(str) && mod.width && mod.precision)
+	else if (mod.width && mod.precision)
 		str = ft_setlloc(str, tmp, mod);
 	tmp ? ft_strdel(&tmp) : (0);
 	return (str);
 }
 
-char	*handle_int_width(char *str, t_arg mod)
+void handle_int_width(char *str, t_arg mod)
 {
 	char	*tmp;
 
 	tmp = NULL;
 	if (mod.flag_minus)
 		str = handle_width_flag_minus(str, mod);
-	else if (mod.flag_zero && !mod.flag_minus)
+	else if (mod.flag_zero && !mod.flag_minus && mod.width > ft_strilen(str))
 		str = handle_width_flag_zero(tmp, str, mod);
 	else if (mod.width > ft_strilen(str) && g_nb < 0)
 		str = handle_negative_num(str, mod);
@@ -115,5 +112,7 @@ char	*handle_int_width(char *str, t_arg mod)
 	}
 	else if (mod.width <= ft_strilen(str) && g_nb < 0 && !mod.flag_minus)
 		(!mod.precision && g_nb < 0) ? str = ft_strjoin("-", str) : (0);
-	return (str);
+	ft_putstr(str);
+	(mod.flag_minus || mod.width > ft_strilen(str) || g_nb < 0) ? free(str) : (0);
+
 }

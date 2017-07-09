@@ -12,24 +12,6 @@
 
 #include "ft_printf.h"
 
-char	*handle_int_precision(char *str, t_arg mod)
-{
-	char	*tmp;
-	int		size;
-
-	size = mod.precision - ft_strilen(str);
-	if (mod.precision > ft_strilen(str))
-	{
-		if (mod.flag_space && !(mod.width > mod.precision))
-			size = size + 1;
-		tmp = ft_memalloc(size + 1);
-		tmp = ft_memset(tmp, '0', size);
-		str = ft_strjoin(tmp, str);
-		tmp ? ft_strdel(&tmp) : (0);
-	}
-	return (str);
-}
-
 void	handle_flag_plus(int *value, char **str, t_arg mod)
 {
 	char *f;

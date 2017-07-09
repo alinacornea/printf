@@ -12,21 +12,6 @@
 
 #include "ft_printf.h"
 
-char	*ft_strjoinch(char *str, char c)
-{
-	int		i;
-	char	*new;
-
-	new = ft_strnew(ft_strlen(str) + 1);
-	if (!new)
-		return (NULL);
-	i = -1;
-	while (++i < ft_strlen(str))
-		*(new + i) = *(str + i);
-	*(new + i) = c;
-	return (new);
-}
-
 char	*handle_int_precision(char *str, t_arg mod)
 {
 	char	*tmp;
@@ -61,18 +46,19 @@ void	convert_integers(intmax_t num, int *value, char *get, t_arg mod)
 	{
 		tmp = handle_int_precision(str, mod);
 		str = tmp;
-		if ((num < 0 && !mod.precision) || (mod.precision && num < 0 ))
+		if (num < 0)
 			str = ft_strjoin("-", str);
 		(mod.precision > len) ? m = 1 : (0);
 	}
+	if (num < 0 && !mod.precision && !mod.width)
+		str = ft_strjoin("-", str);
 	if (!mod.precision && !num && ft_strchr(get, '.'))
 		str[0] = '\0';
-	(mod.width) ? str = handle_int_width(str, mod) : (0);
 	if ((mod.flag_plus || mod.flag_space) && g_nb >= 0)
 		handle_all_flags(value, &str, mod);
-	ft_putstr(str);
+	(!mod.width) ? ft_putstr(str) : handle_int_width(str, mod);
 	(m) ? free(tmp) : (0);
-	(mod.width > num || num < 0) ? free(str) : (0);
+	(num < 0 && !mod.width) ? free(str) : (0);
 	*value += len;
 }
 

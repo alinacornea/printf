@@ -30,10 +30,10 @@ void	handle_float(va_list arg, int *value, char *get, t_arg mod)
 		dot = ft_strchr(str, '.');
 		str = ft_strsub(str, 0, ft_strilen(str) - ft_strilen(dot));
 	}
-	if (mod.width)
-		str = handle_int_width(str, mod);
 	if ((mod.flag_plus || mod.flag_space) && g_nb >= 0)
 		handle_all_flags(value, &str, mod);
+	(!mod.width) ? ft_putstr(str) : handle_int_width(str, mod);
 	ft_putstr(str);
+	free(str);
 	*value += ft_strilen(str);
 }

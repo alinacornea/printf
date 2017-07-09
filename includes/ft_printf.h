@@ -58,17 +58,11 @@ void			invalid_conversion_type(int *value, char *get, t_arg mod);
 void			handle_percent(int *value, t_arg mod);
 void			handle_integers(va_list arg, int *value, char *get, t_arg mod);
 char			*handle_int_precision(char *str, t_arg mod);
-char			*handle_int_width(char *str, t_arg mod);
+void 			handle_int_width(char *str, t_arg mod);
 void			handle_all_flags(int *value, char **str, t_arg mod);
 void			long_length_d(va_list arg, int *value, char *get, t_arg mod);
 
-char			*convert_int_to_ascii(int num, int base);
 char			*convert_long_long_to_ascii(long long num, int base);
-char			*convert_long_to_ascii(long num, int base);
-char			*convert_short_to_ascii(short num, int base);
-char			*convert_u_to_ascii(unsigned int num, int base);
-char			*convert_size_t_to_ascii(size_t num, int base);
-char			*convert_int_ssize_t_to_ascii(ssize_t num, int base);
 char			*convert_lu_to_ascii(unsigned long num, int base);
 char			*convert_ushort_to_ascii(unsigned short num, int base);
 char			*convert_llu_to_ascii(unsigned long long num, int base);
